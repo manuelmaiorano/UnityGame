@@ -21,20 +21,20 @@ public class EnemyController : MonoBehaviour
         Vector3 player_position = GameObject.Find("Player").transform.position;
         Vector3 diff = player_position - transform.position;
         Vector3 versor = diff/diff.magnitude;
-        float step = velocity * Time.deltaTime;
-        transform.position += versor * step;
-        
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision){
-        if(collision.gameObject.layer == 3){
-            logic.game_over();
+        float step;
+        //transform.position += versor * step;
+        if (diff.magnitude > 0.1) {
+            step = velocity * Time.deltaTime;
+        } else {
+            step = 0;
         }
-        if(collision.gameObject.layer == 6){
-            Destroy(gameObject);
-        }
+        var add_pos = versor * step;
+        var enter_building = GameObject.Find("Player").GetComponent<PlayerContoller>().inside_building !=
+                                gameObject.GetComponent<BuildingCollision>().inside_building;
+                            
+        gameObject.GetComponent<BuildingCollision>().add_pos = add_pos;
+        gameObject.GetComponent<BuildingCollision>().enter_building = enter_building;
         
-
     }
 
     
