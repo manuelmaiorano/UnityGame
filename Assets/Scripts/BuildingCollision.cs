@@ -31,47 +31,6 @@ public class BuildingCollision : MonoBehaviour
             }
 
         }
-        if(inside_building) {
-            var room = building_inside.transform.Find("Room").gameObject;
-            
-            var bounds = new Bounds();
-            var vec = room.GetComponent<BoxCollider2D>().bounds.center;
-            vec.z = 0;
-            bounds.extents = room.GetComponent<BoxCollider2D>().bounds.extents;
-            bounds.center = vec;
-
-            var new_bounds = new Bounds();
-            var new_pos = GetComponent<BoxCollider2D>().bounds.center + add_pos;
-            new_pos.z = 0;
-            new_bounds.center = new_pos;
-            new_bounds.extents = GetComponent<BoxCollider2D>().bounds.extents;
-        
-            if (bounds.ContainBounds(new_bounds)) {
-                transform.position += add_pos;
-            }
-        } 
-        else if (building_in_collision != null) {
-            var bounds = new Bounds();
-            var internal_bounds = building_in_collision.transform.Find("InternalCollider")
-                                                        .GetComponent<BoxCollider2D>().bounds;
-            var vec = internal_bounds.center;
-            vec.z = 0;
-            bounds.extents = internal_bounds.extents;
-            bounds.center = vec;
-
-            var new_bounds = new Bounds();
-            var new_pos = GetComponent<BoxCollider2D>().bounds.center + add_pos;
-            new_pos.z = 0;
-            new_bounds.center = new_pos;
-            new_bounds.extents = GetComponent<BoxCollider2D>().bounds.extents;
-            
-            if (!bounds.Intersects(new_bounds)) {
-                transform.position += add_pos;
-            }
-        } 
-        else {
-                transform.position += add_pos;
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision){
