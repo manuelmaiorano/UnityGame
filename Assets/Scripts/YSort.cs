@@ -3,18 +3,20 @@ using UnityEngine;
 
 public class YSort : MonoBehaviour
 {
-    [SerializeField] private Transform _marker_transform;
+    public int sort_order;
     // Start is called before the first frame update
     void Start()
     {
-        var sprite = GetComponent<SpriteRenderer>();
+        var _marker_transform = transform.Find("SortMarker");
         if (_marker_transform) {
-            sprite.sortingOrder = transform.get_sorting_order(_marker_transform.position.y);
+            sort_order = -(int)(_marker_transform.position.y *100);
 
         } else {
-            sprite.sortingOrder = transform.get_sorting_order();
+            sort_order = -(int)(transform.position.y * 100);
 
         }
+
+        GetComponent<SpriteRenderer>().sortingOrder = sort_order;
     }
 
 }

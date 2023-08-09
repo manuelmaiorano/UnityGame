@@ -25,6 +25,8 @@ public class PlayerContoller : MonoBehaviour
 
     private List<SpriteRenderer> building_sprites;
 
+    private Animator animator;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,6 +41,8 @@ public class PlayerContoller : MonoBehaviour
             }
 
         }
+
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -58,14 +62,14 @@ public class PlayerContoller : MonoBehaviour
                 building_inside = which_building;
                 building_inside.GetComponent<SpriteRenderer>().enabled = false;
                 set_buildings_sprites(false);
-                which_room = building_inside.transform.Find("Room").gameObject;
+                which_room = building_inside.transform.parent.Find("Room").gameObject;
                 which_room.GetComponent<SpriteRenderer>().enabled = true;
             } else if(Input.GetKeyDown(KeyCode.E) & inside_building){
                 transform.position = building_inside.transform.Find("ExitMarker").position;
                 inside_building = false;
                 building_inside.GetComponent<SpriteRenderer>().enabled = true;
                 set_buildings_sprites(true);
-                building_inside.transform.Find("Room").gameObject.GetComponent<SpriteRenderer>().enabled = false;
+                which_room.GetComponent<SpriteRenderer>().enabled = false;
                 building_inside = null;
                 which_room = null;
             }
@@ -80,7 +84,12 @@ public class PlayerContoller : MonoBehaviour
         } else if(horizontal >0) {
             facing_right = true;
         }
-        sprite.flipX = !facing_right;
+
+
+        animator.SetBool("iswalking", horizontal != 0 || vertical != 0);
+        //sprite.flipX = !facing_right;
+        float scale = facing_right ? 1 : -1;
+        transform.localScale = new Vector3(scale, 1, 1);
         
 
     }

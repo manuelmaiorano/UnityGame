@@ -53,13 +53,13 @@ public class EnemyController : MonoBehaviour
                 inside_building = true;
                 building_inside = which_building;
                 building_inside.GetComponent<SpriteRenderer>().enabled = false;
-                which_room = building_inside.transform.Find("Room").gameObject;
+                which_room = building_inside.transform.parent.Find("Room").gameObject;
                 which_room.GetComponent<SpriteRenderer>().enabled = true;
             } else if(!is_player_inside & inside_building){
                 transform.position = building_inside.transform.Find("ExitMarker").position;
                 inside_building = false;
                 building_inside.GetComponent<SpriteRenderer>().enabled = true;
-                building_inside.transform.Find("Room").gameObject.GetComponent<SpriteRenderer>().enabled = false;
+                which_room.gameObject.GetComponent<SpriteRenderer>().enabled = false;
                 building_inside = null;
                 which_room = null;
             }
@@ -73,12 +73,12 @@ public class EnemyController : MonoBehaviour
             facing_right = true;
         }
         sprite.flipX = !facing_right;
-        
+        rb.velocity = new Vector2(horizontal * velocity, vertical * velocity);
     }
 
     private void FixedUpdate()
     {  
-        rb.velocity = new Vector2(horizontal * velocity, vertical * velocity);
+        
     }
 
    private void OnTriggerEnter2D(Collider2D collision){

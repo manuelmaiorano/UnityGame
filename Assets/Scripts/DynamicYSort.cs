@@ -3,26 +3,23 @@ using UnityEngine;
 
 public class DynamicYSort : MonoBehaviour
 {
-    private int _base_sorting_order;
+    public int base_sorting_order;
     [SerializeField] private SortableSprite[] _sortable_sprites;
-    private float _y_offset;
-    [SerializeField] private Transform _marker_transform;
+    public float yoffset;
     
     // Start is called before the first frame update
     void Start()
     {
-        _y_offset = _marker_transform.position.y;
-        
+        yoffset = transform.Find("SortMarker").localPosition.y;
     }
 
     // Update is called once per frame
     void Update()
     {
-        _base_sorting_order = transform.get_sorting_order(_y_offset);
-        GetComponent<SpriteRenderer>().sortingOrder = _base_sorting_order;
+        base_sorting_order = transform.get_sorting_order(yoffset);
         foreach(var sortable in _sortable_sprites){
 
-            sortable.sprite.sortingOrder = _base_sorting_order + sortable.relative_order;
+            sortable.sprite.sortingOrder = base_sorting_order + sortable.relative_order;
         }
     }
 
